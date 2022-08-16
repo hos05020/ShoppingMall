@@ -18,7 +18,7 @@
 <img src="https://user-images.githubusercontent.com/96513191/184901373-ddafba7e-aa65-43d1-a0b8-2c5b4b5d86e0.PNG" width="70%" height="700">
 
 
-3.특정 상품 내용
+3.특정 상품 내용(상품 목록에서 상품 제목 클릭시 이동 가능)
 
 <img src="https://user-images.githubusercontent.com/96513191/184900595-3680cb02-99ad-4f8e-a895-41375827866a.PNG" width="70%" height="700">
 
