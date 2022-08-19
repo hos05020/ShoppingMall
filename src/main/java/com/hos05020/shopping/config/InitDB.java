@@ -1,6 +1,8 @@
 package com.hos05020.shopping.config;
 
+import com.hos05020.shopping.domain.Member;
 import com.hos05020.shopping.domain.Product;
+import com.hos05020.shopping.repository.MemberRepository;
 import com.hos05020.shopping.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Profile;
@@ -24,6 +26,7 @@ public class InitDB {
     @PostConstruct
     public void init(){
          service.initdata1();
+        service.initdata2();
     }
 
     @Component
@@ -33,6 +36,7 @@ public class InitDB {
     static class StartService{
 
         private final ProductRepository repository;
+        private final MemberRepository memberRepository;
 
         public void initdata1(){
             IntStream.rangeClosed(1,250).forEach(i->{
@@ -46,6 +50,16 @@ public class InitDB {
                         .build();
                 repository.save(product);
             });
+        }
+
+        public void initdata2(){
+            Member member = Member.builder()
+                    .loginId("test")
+                    .password("test!")
+                    .nickname("테스터")
+                    .build();
+            memberRepository.save(member);
+
         }
 
         public String getImageURL(String folderPath, String uuid,String fileName){
