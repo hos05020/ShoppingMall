@@ -53,9 +53,27 @@
 <img src="https://user-images.githubusercontent.com/96513191/185579910-490bac2e-a113-4050-9589-a4a6651b8f69.PNG" width="60%" height="600">
 
 
+3.2022-08-20 추가 사항
 ---------------------------------------
-##### 추후 계획
 
-1. 현재 사이트는 로그인만 하면 모든 상품을 수정 및 삭제할 수 있는데 특정 상품을 등록한 사용자만 특정 상품을 삭제 및 수정하도록 보안하도록 하겠습니다.
+1. 검색 기능이 추가되었습니다.('제목','내용','제목+내용'으로 검색할 수 있습니다.)
+
+<img src="https://user-images.githubusercontent.com/96513191/185733590-e8b5d82d-e210-47f9-8778-3fb95ee51f41.PNG" width="60%" height="800">
+
+
+2. 상품과 멤버간의 연관관계가 추가되었습니다.(특정 회원은 자신이 등록한 상품만 수정 및 삭제 가능합니다.)
+
+<img src="https://user-images.githubusercontent.com/96513191/185733728-8342cd66-254e-4363-8d65-c6fcd5e830c0.PNG" width="60%" height="800">
+
+<img src="https://user-images.githubusercontent.com/96513191/185733763-5db7068d-633e-4f45-899a-b877bfef0a7a.PNG" width="60%" height="800">
+
+
+3.로그아웃 기능 추가.
+
+<img src="https://user-images.githubusercontent.com/96513191/185733788-ba44b3fa-ccf3-45c7-b616-0b354440e601.PNG" width="60%" height="600">
+
+4.추후 변경 내용: 세션이 아닌 스프링 시큐리트(토큰)을 이용한 로그인 기능 구현
+---------------------------------------
+
 
 
