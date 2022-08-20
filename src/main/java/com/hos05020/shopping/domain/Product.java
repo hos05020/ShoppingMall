@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -20,6 +17,7 @@ import java.net.URLEncoder;
 public class Product extends BaseEntity{
 
     @Id @GeneratedValue
+    @Column(name = "product_id")
     private Long id;
 
     private String title;
@@ -35,6 +33,10 @@ public class Product extends BaseEntity{
 
     private String imgpath;
 
+    @ManyToOne
+    @JoinColumn(name = "member_id")
+    private Member member;
+
 
     public void modify(ProductEdit edit){
         this.title = edit.getTitle();
@@ -45,5 +47,8 @@ public class Product extends BaseEntity{
         this.imgpath = edit.getImgpath();
     }
 
+    public void setMember(Member member){
+        this.member = member;
+    }
 
 }

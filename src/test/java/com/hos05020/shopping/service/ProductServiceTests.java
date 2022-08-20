@@ -1,8 +1,11 @@
 package com.hos05020.shopping.service;
 
+import com.hos05020.shopping.domain.Member;
 import com.hos05020.shopping.domain.Product;
 import com.hos05020.shopping.exception.ProductNotFound;
+import com.hos05020.shopping.repository.MemberRepository;
 import com.hos05020.shopping.repository.ProductRepository;
+import com.hos05020.shopping.request.MemberRequest;
 import com.hos05020.shopping.request.ProductEdit;
 import com.hos05020.shopping.request.ProductRequest;
 import com.hos05020.shopping.response.PageResponse;
@@ -30,6 +33,9 @@ class ProductServiceTests {
     @Autowired
     private ProductRepository repository;
 
+    @Autowired
+    private MemberRepository memberRepository;
+
 
     @Test
     @DisplayName("등록 테스트")
@@ -40,7 +46,16 @@ class ProductServiceTests {
                 .price(10000)
                 .build();
 
-        Long id = productService.register(request);
+
+        Member member = Member.builder()
+                .loginId("test")
+                .password("test!")
+                .nickname("테스터")
+                .build();
+
+        memberRepository.save(member);
+
+        Long id = productService.register(request,member);
 
 
         Product product = repository.findById(id).orElseThrow(()-> new IllegalArgumentException("없는 상품입니다."));
@@ -60,7 +75,15 @@ class ProductServiceTests {
                .price(10000)
                .build();
 
-       Long id = productService.register(request);
+       Member member = Member.builder()
+               .loginId("test")
+               .password("test!")
+               .nickname("테스터")
+               .build();
+
+       memberRepository.save(member);
+
+       Long id = productService.register(request,member);
 
        ProductResponse response = productService.get(id);
 
@@ -72,12 +95,22 @@ class ProductServiceTests {
     @Test
     @DisplayName("페이지 상품 목록")
     void test3(){
+
+        Member member = Member.builder()
+                .loginId("test")
+                .password("test!")
+                .nickname("테스터")
+                .build();
+
+        memberRepository.save(member);
+
         IntStream.rangeClosed(0,30).forEach(i->{
             Product product = Product.builder()
                     .title("제목"+i)
                     .content("내용"+i)
                     .price(i*100+5000)
                     .build();
+            product.setMember(member);
             repository.save(product);
         });
 
@@ -94,11 +127,21 @@ class ProductServiceTests {
     @Test
     @DisplayName("상품 수정")
     void test4(){
+
+        Member member = Member.builder()
+                .loginId("test")
+                .password("test!")
+                .nickname("테스터")
+                .build();
+
+        memberRepository.save(member);
+
         Product product = Product.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
                 .price(10000)
                 .build();
+        product.setMember(member);
         repository.save(product);
 
         ProductEdit edit = ProductEdit.builder()
@@ -107,7 +150,8 @@ class ProductServiceTests {
                 .price(30000)
                                         .build();
 
-        productService.modify(product.getId(), edit);
+
+        productService.modify(product.getId(), edit,member);
 
         Product findProduct = repository.findById(product.getId()).orElseThrow(() -> new IllegalArgumentException("없는 상품입니다."));
 
@@ -120,6 +164,16 @@ class ProductServiceTests {
     @Test
     @DisplayName("상품 삭제")
     void test5(){
+
+
+        Member member = Member.builder()
+                .loginId("test")
+                .password("test!")
+                .nickname("테스터")
+                .build();
+
+        memberRepository.save(member);
+
         Product product = Product.builder()
                 .title("제목입니다.")
                 .content("내용입니다.")
@@ -129,7 +183,7 @@ class ProductServiceTests {
 
         Long id = product.getId();
 
-        productService.delete(product.getId());
+        productService.delete(product.getId(),member);
 
        Assertions.assertThatThrownBy(()->{
            productService.get(id);

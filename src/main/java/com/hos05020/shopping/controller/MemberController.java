@@ -62,4 +62,13 @@ public class MemberController {
          }
      }
 
+     @GetMapping("/logout")
+    public void logOut(HttpServletRequest request){
+         HttpSession session = request.getSession(false);
+         if(session!=null){
+             session.invalidate();
+         }
+         return;
+     }
+
 }

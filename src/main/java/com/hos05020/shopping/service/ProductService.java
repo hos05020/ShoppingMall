@@ -1,6 +1,8 @@
 package com.hos05020.shopping.service;
 
+import com.hos05020.shopping.domain.Member;
 import com.hos05020.shopping.domain.Product;
+import com.hos05020.shopping.exception.ProductNotEqualMemberException;
 import com.hos05020.shopping.exception.ProductNotFound;
 import com.hos05020.shopping.repository.ProductRepository;
 import com.hos05020.shopping.request.ProductEdit;
@@ -25,7 +27,7 @@ public class ProductService {
     private final ProductRepository repository;
 
     @Transactional
-    public Long register(ProductRequest request){
+    public Long register(ProductRequest request, Member loginmember){
 
         Product product = Product.builder()
                 .title(request.getTitle())
@@ -35,6 +37,10 @@ public class ProductService {
                 .imgName(request.getImgName())
                 .imgpath(request.getImgpath())
                 .build();
+
+
+        product.setMember(loginmember);
+
         repository.save(product);
 
         return product.getId();
@@ -68,15 +74,24 @@ public class ProductService {
     }
 
     @Transactional
-    public void modify(Long productId, ProductEdit edit) {
+    public void modify(Long productId, ProductEdit edit,Member loginMember) {
         Product findProduct = repository.findById(productId).orElseThrow(() -> new ProductNotFound());
+
+        if(findProduct.getMember().getId()!= loginMember.getId()){
+            throw new ProductNotEqualMemberException();
+        }
+
         findProduct.modify(edit);
 
     }
 
     @Transactional
-    public void delete(Long productId) {
+    public void delete(Long productId,Member loginMember) {
         Product findProduct = repository.findById(productId).orElseThrow(() -> new ProductNotFound());
+        if(findProduct.getMember().getId()!= loginMember.getId()){
+            throw new ProductNotEqualMemberException();
+        }
+
         repository.delete(findProduct);
     }
 

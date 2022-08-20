@@ -11,6 +11,8 @@ public class RequestPageDTO {
 
     private int page;
     private int size;
+    private String type;
+    private String keyword;
 
     public int getOffset(){
         return page * size;

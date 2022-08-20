@@ -26,7 +26,6 @@ public class InitDB {
     @PostConstruct
     public void init(){
          service.initdata1();
-        service.initdata2();
     }
 
     @Component
@@ -39,6 +38,25 @@ public class InitDB {
         private final MemberRepository memberRepository;
 
         public void initdata1(){
+
+
+
+            Member member1 = Member.builder()
+                    .loginId("test")
+                    .password("test!")
+                    .nickname("테스터")
+                    .build();
+
+            Member member2 = Member.builder()
+                    .loginId("hos05020")
+                    .password("hos1179727!")
+                    .nickname("hajangwon")
+                    .build();
+            memberRepository.save(member1);
+            memberRepository.save(member2);
+
+
+
             IntStream.rangeClosed(1,250).forEach(i->{
                 Product product = Product.builder()
                         .title("제목"+i)
@@ -48,19 +66,17 @@ public class InitDB {
                         .imgpath("2022"+ File.separator+"08"+File.separator+"15")
                         .imguuid("93c264d9-04ee-4e25-ab0e-78a0737e8bbb")
                         .build();
+
+                if(i%2==0){
+                    product.setMember(Member.builder().id(member1.getId()).build());
+                }else {
+                    product.setMember(Member.builder().id(member2.getId()).build());
+                }
+
                 repository.save(product);
             });
         }
 
-        public void initdata2(){
-            Member member = Member.builder()
-                    .loginId("test")
-                    .password("test!")
-                    .nickname("테스터")
-                    .build();
-            memberRepository.save(member);
-
-        }
 
         public String getImageURL(String folderPath, String uuid,String fileName){
             try {
